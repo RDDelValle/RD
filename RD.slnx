@@ -1,2 +1,6 @@
 <Solution>
+  <Folder Name="/Analytics/" />
+  <Folder Name="/Analytics/src/">
+    <Project Path="Analytics/src/RD.Analytics.csproj" />
+  </Folder>
 </Solution>
