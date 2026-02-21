@@ -1,5 +1,8 @@
 <Solution>
   <Folder Name="/Analytics/" />
+  <Folder Name="/Analytics/demo/">
+    <Project Path="Analytics/demo/RD.Analytics.Demo.csproj" />
+  </Folder>
   <Folder Name="/Analytics/src/">
     <Project Path="Analytics/src/RD.Analytics.csproj" />
   </Folder>
