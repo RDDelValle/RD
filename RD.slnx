@@ -1,7 +1,8 @@
 <Solution>
   <Folder Name="/Analytics/" />
-  <Folder Name="/Analytics/demo/">
-    <Project Path="Analytics/demo/RD.Analytics.Demo.csproj" />
+  <Folder Name="/Analytics/EntityFrameworkCore/" />
+  <Folder Name="/Analytics/EntityFrameworkCore/src/">
+    <Project Path="Analytics/EntityFrameworkCore/src/Rd.Analytics.EntityFrameworkCore.csproj" />
   </Folder>
   <Folder Name="/Analytics/src/">
     <Project Path="Analytics/src/RD.Analytics.csproj" />
