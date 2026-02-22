@@ -9,7 +9,9 @@
 }
 <FluentLayout>
     <FluentHeader>
-        @Options.Value.DashboardTitle
+        <span>@Options.Value.DashboardTitle</span>
+        <FluentSpacer />
+        <a href="@Options.Value.ExitAnalyticsPath">Exit Analytics</a>
     </FluentHeader>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <AnalyticsNavMenu />
@@ -29,12 +31,6 @@
     }
 </FluentLayout>
 
-<div id="blazor-error-ui" data-nosnippet>
-    <strong>Oops!</strong> Something went wrong.
-    <a href="." class="reload">Try reloading</a>
-    <span class="dismiss">🗙</span>
-</div>
-
 @code {
     [CascadingParameter] public HttpContext Context { get; set; } = null!;
 
@@ -49,8 +45,7 @@
         if (Options.Value.RequireRoles.Any() && !Options.Value.RequireRoles.Any(e => Context.User.IsInRole(e)))
             NavigateToNotAuthorized();
 
-        if (Options.Value.RequireClaims.Any() && !Options.Value.RequireClaims.Any(e => Context.User.Claims.Any(x => x.Type ==
-e)))
+        if (Options.Value.RequireClaims.Any() && !Options.Value.RequireClaims.Any(e => Context.User.Claims.Any(x => x.Type == e)))
             NavigateToNotAuthorized();
 
         return base.OnInitializedAsync();

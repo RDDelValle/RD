@@ -13,4 +13,5 @@ public record AnalyticsDashboardOptions
     public string LoginPath { get; init; } = "/Account/Login";
     public string NotAuthorizedPath { get; init; } = "/Account/NotAuthorized";
     public string ReturnUrlQueryParameter { get; init; } = "returnUrl";
+    public string ExitAnalyticsPath { get; init; } = "/";
 }

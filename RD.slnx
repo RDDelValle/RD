@@ -11,4 +11,8 @@
   <Folder Name="/Analytics/src/">
     <Project Path="Analytics/src/RD.Analytics.csproj" />
   </Folder>
+  <Folder Name="/Components/" />
+  <Folder Name="/Components/src/">
+    <Project Path="Components/src/RD.Components.csproj" />
+  </Folder>
 </Solution>
