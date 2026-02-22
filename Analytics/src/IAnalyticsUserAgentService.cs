@@ -1,9 +1,11 @@
+using System.Linq.Expressions;
+
 namespace RD.Analytics;
 
 public interface IAnalyticsUserAgentService
 {
-    Task<Guid> GetOrCreateUserAgentIdAsync(string userAgent);
-    Task<List<AnalyticsUserAgent>> GetUserAgentsAsync<T>();
-    Task<List<AnalyticsUserAgent>> GetUserAgentsAsync<T>(Func<T,bool> where);
+    Task<Guid> GetOrCreateUserAgentIdAsync(string userAgent, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<AnalyticsUserAgent>> GetUserAgentsAsync(CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<AnalyticsUserAgent>> GetUserAgentsAsync(Expression<Func<AnalyticsUserAgent, bool>> where, CancellationToken cancellationToken = default);
 }
 
