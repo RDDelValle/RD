@@ -11,9 +11,9 @@ public class AnalyticsManager(
     IAnalyticsConnectionService connectionService,
     IAnalyticsUserAgentService userAgentService)
 {
-    private readonly IDataProtector Protector = dataProtectionProvider.CreateProtector(options.Value.ProtectorPurpose);
+    private readonly IDataProtector _protector = dataProtectionProvider.CreateProtector(options.Value.ProtectorPurpose);
 
-    private readonly CookieBuilder Cookie = new()
+    private readonly CookieBuilder _cookie = new()
     {
         IsEssential = true,
         HttpOnly = options.Value.HttpOnly,
@@ -52,8 +52,8 @@ public class AnalyticsManager(
         }
     }
 
-    
-    protected async Task<Guid> CreateNewConnectionAsync(HttpContext context, CancellationToken cancellationToken)
+
+    private async Task<Guid> CreateNewConnectionAsync(HttpContext context, CancellationToken cancellationToken)
     {
         Guid userAgentId;
         try
@@ -83,23 +83,23 @@ public class AnalyticsManager(
         return connection.Id;
     }
 
-    protected bool TryGetPayloadFromContext(HttpContext context, out AnalyticsCookiePayload? payload)
+    private bool TryGetPayloadFromContext(HttpContext context, out AnalyticsCookiePayload? payload)
     {
         payload = null;
         if (!context.Request.Cookies.TryGetValue(options.Value.Key, out var protectedPayload)) return false;
-        var serializedPayload = Protector.Unprotect(protectedPayload);
+        var serializedPayload = _protector.Unprotect(protectedPayload);
         payload = JsonSerializer.Deserialize<AnalyticsCookiePayload>(serializedPayload);
         return true;
     }
 
-    protected void AddPayloadToContext(HttpContext context, AnalyticsCookiePayload payload)
+    private void AddPayloadToContext(HttpContext context, AnalyticsCookiePayload payload)
     {
         var serializedPayload = JsonSerializer.Serialize(payload);
-        var protectedPayload = Protector.Protect(serializedPayload);
-        context.Response.Cookies.Append(options.Value.Key, protectedPayload, Cookie.Build(context));
+        var protectedPayload = _protector.Protect(serializedPayload);
+        context.Response.Cookies.Append(options.Value.Key, protectedPayload, _cookie.Build(context));
     }
 
-    protected void RefreshContextPayload(HttpContext context, AnalyticsCookiePayload payload)
+    private void RefreshContextPayload(HttpContext context, AnalyticsCookiePayload payload)
     {
         if (!(payload.ExpiresOn <= DateTime.Now.AddDays(options.Value.ExpirationDays - options.Value.RefreshDays))) return;
         payload = new AnalyticsCookiePayload(
