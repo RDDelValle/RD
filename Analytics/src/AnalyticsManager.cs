@@ -8,8 +8,7 @@ namespace RD.Analytics;
 public class AnalyticsManager(
     IOptions<AnalyticsCookieOptions> options,
     IDataProtectionProvider dataProtectionProvider,
-    IAnalyticsConnectionService connectionService,
-    IAnalyticsUserAgentService userAgentService)
+    IAnalyticsService service)
 {
     private readonly IDataProtector _protector = dataProtectionProvider.CreateProtector(options.Value.ProtectorPurpose);
 
@@ -21,6 +20,24 @@ public class AnalyticsManager(
         SecurePolicy = options.Value.SecurePolicy,
         Expiration = TimeSpan.FromDays(options.Value.ExpirationDays),
     };
+
+    private IAnalyticsConnectionService ConnectionService
+    {
+        get
+        {
+            var svc = service as IAnalyticsConnectionService;
+            return svc ?? throw new InvalidOperationException("Analytics service does not implement IAnalyticsConnectionService");
+        }
+    }
+    
+    private IAnalyticsUserAgentService UserAgentService
+    {
+        get
+        {
+            var svc = service as IAnalyticsUserAgentService;
+            return svc ?? throw new InvalidOperationException("Analytics service does not implement IAnalyticsUserAgentService");
+        }
+    }
 
     /// <summary>
     /// Gets the id for the current connection
@@ -60,7 +77,7 @@ public class AnalyticsManager(
         {
             var userAgent = context.Request.Headers.UserAgent.ToString();
             userAgent = string.IsNullOrWhiteSpace(userAgent) ? "Undefined" : userAgent;
-            userAgentId = await userAgentService.GetOrCreateUserAgentIdAsync(userAgent);
+            userAgentId = await UserAgentService.GetOrCreateUserAgentIdAsync(userAgent, cancellationToken);
         }
         catch (Exception e)
         {
@@ -74,7 +91,7 @@ public class AnalyticsManager(
         };
         try
         {
-            await connectionService.CreateConnectionAsync(connection);
+            await ConnectionService.CreateConnectionAsync(connection, cancellationToken);
         }
         catch (Exception e)
         {

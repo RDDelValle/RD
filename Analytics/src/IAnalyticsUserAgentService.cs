@@ -8,4 +8,3 @@ public interface IAnalyticsUserAgentService
     Task<IReadOnlyList<AnalyticsUserAgent>> GetUserAgentsAsync(CancellationToken cancellationToken = default);
     Task<IReadOnlyList<AnalyticsUserAgent>> GetUserAgentsAsync(Expression<Func<AnalyticsUserAgent, bool>> where, CancellationToken cancellationToken = default);
 }
-

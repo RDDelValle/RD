@@ -4,9 +4,17 @@ using RD.Analytics;
 
 namespace Rd.Analytics.EntityFrameworkCore;
 
-internal sealed class AnalyticsUserAgentService<TContext>(IDbContextFactory<TContext> dbContextFactory) : IAnalyticsUserAgentService
+public class AnalyticsService<TContext>(IDbContextFactory<TContext> dbContextFactory) 
+    : IAnalyticsService, IAnalyticsConnectionService, IAnalyticsUserAgentService
     where TContext : DbContext, IAnalyticsDbContext
 {
+    public async Task CreateConnectionAsync(AnalyticsConnection model, CancellationToken cancellationToken = default)
+    {
+        await using var context = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+        context.Connections.Add(model);
+        await context.SaveChangesAsync(cancellationToken);
+    }
+    
     public async Task<Guid> GetOrCreateUserAgentIdAsync(string userAgent, CancellationToken cancellationToken = default)
     {
         await using var context = await dbContextFactory.CreateDbContextAsync(cancellationToken);
