@@ -1,5 +1,9 @@
 <Solution>
   <Folder Name="/Analytics/" />
+  <Folder Name="/Analytics/Dashboard/" />
+  <Folder Name="/Analytics/Dashboard/src/">
+    <Project Path="Analytics/Dashboard/src/RD.Analytics.Dashboard.csproj" />
+  </Folder>
   <Folder Name="/Analytics/EntityFrameworkCore/" />
   <Folder Name="/Analytics/EntityFrameworkCore/src/">
     <Project Path="Analytics/EntityFrameworkCore/src/Rd.Analytics.EntityFrameworkCore.csproj" />

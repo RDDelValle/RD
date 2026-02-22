@@ -1,0 +1,67 @@
+@inherits LayoutComponentBase
+@inject IOptions<AnalyticsDashboardOptions> Options
+@inject NavigationManager Navigation
+@if (Options.Value.IncludeStyles)
+{
+    <HeadContent>
+        <link rel="stylesheet" href="@Assets["_content/RD.Analytics.Dashboard/styles.css"]" />
+    </HeadContent>
+}
+<FluentLayout>
+    <FluentHeader>
+        @Options.Value.DashboardTitle
+    </FluentHeader>
+    <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
+        <AnalyticsNavMenu />
+        <FluentBodyContent Class="body-content">
+            <div class="content">
+                @Body
+            </div>
+        </FluentBodyContent>
+    </FluentStack>
+    @if (Options.Value.IncludeFooter)
+    {
+        <FluentFooter>
+            <p>Project: @Options.Value.ProjectName</p>
+            <FluentSpacer />
+            <p>Version: @Options.Value.ProjectVersion</p>
+        </FluentFooter>
+    }
+</FluentLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    <strong>Oops!</strong> Something went wrong.
+    <a href="." class="reload">Try reloading</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    [CascadingParameter] public HttpContext Context { get; set; } = null!;
+
+    protected override Task OnInitializedAsync()
+    {
+        if (!Options.Value.RequireAuthorization)
+            return base.OnInitializedAsync();
+
+        if (!Context.User.Identity?.IsAuthenticated is true)
+            NavigateToLogin();
+
+        if (Options.Value.RequireRoles.Any() && !Options.Value.RequireRoles.Any(e => Context.User.IsInRole(e)))
+            NavigateToNotAuthorized();
+
+        if (Options.Value.RequireClaims.Any() && !Options.Value.RequireClaims.Any(e => Context.User.Claims.Any(x => x.Type ==
+e)))
+            NavigateToNotAuthorized();
+
+        return base.OnInitializedAsync();
+    }
+
+    private void NavigateToLogin()
+        =>
+Navigation.NavigateTo($"{Options.Value.LoginPath}?{Options.Value.ReturnUrlQueryParameter}={Uri.EscapeDataString(Navigation.Uri)}",
+forceLoad: true);
+
+    private void NavigateToNotAuthorized()
+        => Navigation.NavigateTo($"{Options.Value.NotAuthorizedPath}", forceLoad: true);
+
+}
