@@ -2,7 +2,7 @@ namespace RD.Analytics;
 
 public class AnalyticsUserAgent
 {
-    public virtual Guid Id { get; init; } = default!;
-    public virtual string UserAgent { get; init; } = null!;
+    public Guid Id { get; init; }
+    public string UserAgent { get; init; } = null!;
 }
 
