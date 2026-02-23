@@ -31,6 +31,12 @@
     }
 </FluentLayout>
 
+<div id="blazor-error-ui" data-nosnippet>
+    <strong>Oops!</strong> Something went wrong.
+    <a href="." class="reload">Try reloading</a>
+    <span class="dismiss">🗙</span>
+</div>
+
 @code {
     [CascadingParameter] public HttpContext Context { get; set; } = null!;
 

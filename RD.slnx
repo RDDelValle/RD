@@ -4,15 +4,14 @@
   <Folder Name="/Analytics/Dashboard/src/">
     <Project Path="Analytics/Dashboard/src/RD.Analytics.Dashboard.csproj" />
   </Folder>
+  <Folder Name="/Analytics/demo/">
+    <Project Path="Analytics/demo/RD.Analytics.Demo.csproj" />
+  </Folder>
   <Folder Name="/Analytics/EntityFrameworkCore/" />
   <Folder Name="/Analytics/EntityFrameworkCore/src/">
     <Project Path="Analytics/EntityFrameworkCore/src/Rd.Analytics.EntityFrameworkCore.csproj" />
   </Folder>
   <Folder Name="/Analytics/src/">
     <Project Path="Analytics/src/RD.Analytics.csproj" />
-  </Folder>
-  <Folder Name="/Components/" />
-  <Folder Name="/Components/src/">
-    <Project Path="Components/src/RD.Components.csproj" />
   </Folder>
 </Solution>
